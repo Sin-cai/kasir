@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #e8f5e9; /* Warna latar belakang hijau muda */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    background: #4caf50; /* Warna hijau */
+    border-radius: 50%;
+    animation: move 10s linear infinite;
+}
+
+.shape:nth-child(1) {
+    width: 200px;
+    height: 200px;
+    top: -100px;
+    left: -100px;
+}
+
+.shape:nth-child(2) {
+    width: 300px;
+    height: 300px;
+    top: 300px;
+    left: 150px;
+}
+
+form {
+    position: relative;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+h3 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #4caf50; /* Warna hijau saat fokus */
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #4caf50; /* Warna hijau tombol */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #43a047; /* Warna hijau lebih gelap saat hover */
+}
+
+.social {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.social div {
+    margin: 10px 0;
+}
+
+.social a {
+    color: #4caf50; /* Warna hijau untuk link sosial */
+    text-decoration: none;
+}
+
+.social a:hover {
+    text-decoration: underline;
+}
+
+@keyframes move {
+    0% {
+        transform: translate(0);
+    }
+    50% {
+        transform: translate(100px, 50px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
