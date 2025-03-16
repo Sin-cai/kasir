@@ -1,130 +1,134 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Cashier Dashboard - Reports</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        .sidebar {
+            transition: width 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 64px;
+        }
+        .sidebar.collapsed .sidebar-item-text {
+            display: none;
+        }
+
+        
+
+    </style>
 </head>
-<body>
-    <div class="d-flex" id="wrapper">
+<body class="bg-gray-100">
+    <div class="flex">
         <!-- Sidebar -->
-        <nav class="bg-white sidebar shadow" id="sidebar">
-            <div class="sidebar-header text-center py-3">
-                <h4 class="fw-bold text-primary">Tech<span class="text-black"></span></h4>
+        <div id="sidebar" class="bg-green-800 w-64 min-h-screen flex flex-col sidebar">
+            <div class="flex items-center justify-between h-20 border-b border-green-700 px-4">
+                <h1 class="text-white text-2xl sidebar-item-text">Cashier Dashboard</h1>
+                <button id="toggleSidebar" class="text-white">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <p class="text-muted px-3">Menu</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('produk.index') }}">
-                        <i class="bi bi-box-seam me-2"></i> Product
+            <div class="flex-grow">
+                <nav class="mt-10">
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('admin.index') }}">
+                        <i class="fas fa-home mr-3"></i>
+                        <span class="sidebar-item-text">Home</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('kategori.index') }}">
-                        <i class="bi bi-tags me-2"></i> Category
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('penjualan.index') }}">
+                        <i class="fas fa-cash-register mr-3"></i>
+                        <span class="sidebar-item-text">Transactions</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('users.index') }}">
-                        <i class="bi bi-people me-2"></i> Users
+                    <a  class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('produk.index') }}">
+                        <i class="fas fa-box-open mr-3"></i>
+                        <span class="sidebar-item-text">Products</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('pelanggan.index') }}">
-                        <i class="bi bi-person-vcard me-2"></i> Membership
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('kategori.index') }}">
+                        <i class="fas fa-tags mr-3"></i>
+                        <span class="sidebar-item-text">Category</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('penjualan.index') }}">
-                        <i class="bi bi-credit-card me-2"></i> Transaction
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('pelanggan.index') }}">
+                        <i class="fas fa-id-card mr-3"></i>
+                        <span class="sidebar-item-text">Membership</span>
                     </a>
-                </li>
-            </ul>
-            
-            <p class="text-muted px-3 mt-3">Other</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="#">
-                        <i class="bi bi-gear me-2"></i> Settings
+                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('laporan.index') }}">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span class="sidebar-item-text">Reports</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center text-danger" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="bi bi-box-arrow-right me-2"></i> Logout
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('users.index') }}">
+                        <i class="fas fa-user mr-3"></i>
+                        <span class="sidebar-item-text">Users</span>
                     </a>
-                </li>
-            </ul>
-        </nav>
-
+                </nav>
+            </div>
+        </div>
         <!-- Main Content -->
-        <div id="page-content">
-            <nav class="navbar navbar-light bg-white shadow-sm px-4">
-                <button class="btn btn-primary" id="sidebarToggle">☰</button>
-                <div class="ms-auto d-flex align-items-center">
-                    <span class="me-3">Hello, {{ Auth::user()->name }}</span>
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <img src="https://via.placeholder.com/40" class="rounded-circle" alt="User">
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">Logout</a></li>
-                        </ul>
+        <div class="flex-1 p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold">Reports</h1>
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <i class="fas fa-user-circle text-gray-600 text-xl"></i>
+                </div>
+            </div>
+            <!-- Content -->
+            <form id="filter-form" class="p-4 bg-light rounded shadow">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex flex-col">
+                        <label class="text-gray-700">Tanggal Mulai:</label>
+                        <input class="border border-gray-300 rounded px-4 py-2" id="startDate" type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}">
+                    </div>
+                    <span class="text-gray-700 self-center">to</span>
+                    <div class="flex flex-col">
+                        <label class="text-gray-700">Tanggal Selesai:</label>
+                        <input class="border border-gray-300 rounded px-4 py-2" id="endDate" type="date" name="tanggal_selesai" value="{{ request('tanggal_selesai') }}">
+                    </div>
+                    <div class="flex items-end">
+                        <button class="bg-green-500 text-white px-4 py-2 rounded" id="filterButton" type="submit">Filter</button>
                     </div>
                 </div>
-            </nav>
-
-            <div class="container">
-                <h2 class="mb-4">Laporan Penjualan</h2>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="alert alert-primary">Total Penjualan: <strong>Rp {{ number_format($totalPenjualan, 0, ',', '.') }}</strong></div>
+            </form>
+                <!-- Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-green-100 p-4 rounded-lg shadow">
+                        <h2 class="text-lg font-semibold text-green-700">Total Sales</h2>
+                        <div class="text-2xl font-bold text-green-700"><strong>Rp {{ number_format($totalPenjualan, 0, ',', '.') }}</strong></div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="alert alert-success">Total Keuntungan: <strong>Rp {{ number_format($totalKeuntungan, 0, ',', '.') }}</strong></div>
+                    <div class="bg-green-100 p-4 rounded-lg shadow">
+                        <h2 class="text-lg font-semibold text-green-700">Total Profit</h2>
+                        <div class="text-2xl font-bold text-green-700"><strong>Rp {{ number_format($totalKeuntungan, 0, ',', '.') }}</strong></div>
+                    </div>
+                    <div class="bg-green-100 p-4 rounded-lg shadow">
+                        <h2 class="text-lg font-semibold text-green-700">Total Transactions</h2>
+                        <div class="text-2xl font-bold text-green-700"><strong>{{ number_format($totalBarangTerjual, 0, ',', '.') }}</strong></div>
                     </div>
                 </div>
-            
-                <!-- Filter Tanggal -->
-                <form id="filter-form">
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label>Tanggal Mulai:</label>
-                            <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control" value="{{ request('tanggal_mulai') }}">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Tanggal Selesai:</label>
-                            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control" value="{{ request('tanggal_selesai') }}">
-                        </div>
-                        <div class="col-md-4">
-                            <label>&nbsp;</label><br>
-                            <button type="submit" class="btn btn-primary">Filter</button>
-                        </div>
-                    </div>
-                </form>
-            
-                <!-- Daftar Transaksi -->
-                <table class="table table-bordered">
+                <!-- Download Buttons -->
+                <div class="flex justify-end mb-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded flex items-center mr-2">
+                        <i class="fas fa-file-pdf mr-2"></i> Download PDF
+                    </button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded flex items-center">
+                        <i class="fas fa-file-excel mr-2"></i> Download Excel
+                    </button>
+                </div>
+                <!-- Table -->
+                <table class="w-full text-left">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tanggal</th>
-                            <th>Kasir</th>
-                            <th>Pelanggan</th>
-                            <th>Diskon</th>
-                            <th>Total Harga</th>
-                            <th>Detail</th>
+                        <tr class="text-gray-600">
+                            <th class="pb-2">No</th>
+                            <th class="pb-2">Date</th>
+                            <th class="pb-2">Employe</th>
+                            <th class="pb-2">Customer</th>
+                            <th class="pb-2">Discount</th>
+                            <th class="pb-2">Total</th>
+                            <th class="pb-2">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                   <tbody>
                         @foreach ($penjualans as $penjualan)
                         <tr>
                             <td>{{ $penjualan->id }}</td>
@@ -134,31 +138,11 @@
                             <td>{{ $penjualan->diskon }}%</td>
                             <td>Rp {{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
                             <td>
-                                <button class="btn btn-info btn-sm lihat-detail" data-id="{{ $penjualan->id }}">Lihat</button>
-                            </td>
-                        </tr>
-                        <tr id="detail-{{ $penjualan->id }}" class="detail-row" style="display: none;">
-                            <td colspan="7">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Produk</th>
-                                            <th>Harga</th>
-                                            <th>Qty</th>
-                                            <th>Subtotal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($penjualan->detailPenjualan as $detail)
-                                        <tr>
-                                            <td>{{ $detail->produk->nama_produk }}</td>
-                                            <td>Rp {{ number_format($detail->harga_jual, 0, ',', '.') }}</td>
-                                            <td>{{ $detail->qty }}</td>
-                                            <td>Rp {{ number_format($detail->sub_total, 0, ',', '.') }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <button class="view-details bg-blue-500 text-white px-3 py-1 rounded" 
+                                    data-transaction-id="{{ $penjualan->id }}"
+                                    data-details='@json($penjualan->detailPenjualan)'>
+                                    <i class="fas fa-eye"></i>
+                                </button>
                             </td>
                         </tr>
                         @endforeach
@@ -167,25 +151,76 @@
             </div>
         </div>
     </div>
+    
+    <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="modal">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                Transaction Details
+                            </h3>
+                            <div class="mt-2">
+                                <table class="w-full border-collapse border border-gray-200">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border px-4 py-2">Produk</th>
+                                            <th class="border px-4 py-2">Harga</th>
+                                            <th class="border px-4 py-2">Qty</th>
+                                            <th class="border px-4 py-2">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="modalContent">
+                                        <!-- Detail transaksi akan dimuat di sini -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" id="closeModal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   <script>
+    document.querySelectorAll('.view-details').forEach(button => {
+        button.addEventListener('click', function() {
+            const transactionId = this.getAttribute('data-transaction-id');
+            const details = JSON.parse(this.getAttribute('data-details'));
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="{{ asset('js/admin.js') }}"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll('.lihat-detail').forEach(button => {
-                button.addEventListener('click', function () {
-                    let id = this.getAttribute('data-id');
-                    let detailRow = document.getElementById('detail-' + id);
-                    if (detailRow.style.display === "none") {
-                        detailRow.style.display = "table-row";
-                    } else {
-                        detailRow.style.display = "none";
-                    }
-                });
+            // Bangun tabel isi modal
+            let modalContent = "";
+            details.forEach(detail => {
+                modalContent += `
+                    <tr>
+                        <td class="border px-4 py-2">${detail.produk.nama_produk}</td>
+                        <td class="border px-4 py-2">Rp ${new Intl.NumberFormat('id-ID').format(detail.harga_jual)}</td>
+                        <td class="border px-4 py-2">${detail.qty}</td>
+                        <td class="border px-4 py-2">Rp ${new Intl.NumberFormat('id-ID').format(detail.sub_total)}</td>
+                    </tr>`;
             });
+
+            document.getElementById('modalContent').innerHTML = modalContent;
+            document.getElementById('modal').classList.remove('hidden');
+            document.body.classList.add('modal-active');
         });
-        </script>
+    });
+
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('modal').classList.add('hidden');
+        document.body.classList.remove('modal-active');
+    });
+</script>
+
 </body>
 </html>

@@ -79,10 +79,11 @@ class PenjualanController extends Controller
     }
 
     public function searchMember(Request $request)
-    {
-        $members = Pelanggan::where('hp', 'like', '%' . $request->query('query') . '%')->get();
-        return response()->json($members);
-    }
+{
+    $members = Pelanggan::where('hp', 'like', '%' . $request->query('query') . '%')->get();
+    return response()->json($members);
+}
+
 
     public function destroy($id)
     {
@@ -92,7 +93,7 @@ class PenjualanController extends Controller
     }
     public function bulkDelete(Request $request)
 {
-    $ids = $request->input('ids'); 
+    $ids = $request->input('ids'); // Ambil ID yang dikirim dari AJAX
 
     if (!empty($ids)) {
         Penjualan::whereIn('id', $ids)->delete();

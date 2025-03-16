@@ -1,121 +1,117 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Cashier Dashboard - Add Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        .sidebar {
+            transition: width 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 64px;
+        }
+        .sidebar.collapsed .sidebar-item-text {
+            display: none;
+        }
+    </style>
 </head>
-<body>
-    <div class="d-flex" id="wrapper">
+<body class="bg-gray-100">
+    <div class="flex">
         <!-- Sidebar -->
-        <nav class="bg-white sidebar shadow" id="sidebar">
-            <div class="sidebar-header text-center py-3">
-                <h4 class="fw-bold text-primary">Tech<span class="text-black"></span></h4>
+        <div id="sidebar" class="bg-green-800 w-64 min-h-screen flex flex-col sidebar">
+            <div class="flex items-center justify-between h-20 border-b border-green-700 px-4">
+                <h1 class="text-white text-2xl sidebar-item-text">Cashier Dashboard</h1>
+                <button id="toggleSidebar" class="text-white">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <p class="text-muted px-3">Menu</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('produk.index') }}">
-                        <i class="bi bi-box-seam me-2"></i> Product
+            <div class="flex-grow">
+                <nav class="mt-10">
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="#">
+                        <i class="fas fa-home mr-3"></i>
+                        <span class="sidebar-item-text">Home</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('kategori.index') }}">
-                        <i class="bi bi-tags me-2"></i> Category
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="#">
+                        <i class="fas fa-cash-register mr-3"></i>
+                        <span class="sidebar-item-text">Transactions</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('users.index') }}">
-                        <i class="bi bi-people me-2"></i> Users
+                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="#">
+                        <i class="fas fa-box-open mr-3"></i>
+                        <span class="sidebar-item-text">Products</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('pelanggan.index') }}">
-                        <i class="bi bi-person-vcard me-2"></i> Membership
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="#">
+                        <i class="fas fa-tags mr-3"></i>
+                        <span class="sidebar-item-text">Category</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="{{ route('penjualan.index') }}">
-                        <i class="bi bi-credit-card me-2"></i> Transaction
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="#">
+                        <i class="fas fa-id-card mr-3"></i>
+                        <span class="sidebar-item-text">Membership</span>
                     </a>
-                </li>
-            </ul>
-            
-            <p class="text-muted px-3 mt-3">Other</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="#">
-                        <i class="bi bi-gear me-2"></i> Settings
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="#">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span class="sidebar-item-text">Reports</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center text-danger" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="bi bi-box-arrow-right me-2"></i> Logout
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
+                </nav>
+            </div>
+        </div>
         <!-- Main Content -->
-        <div id="page-content">
-            <nav class="navbar navbar-light bg-white shadow-sm px-4">
-                <button class="btn btn-primary" id="sidebarToggle">☰</button>
-                <div class="ms-auto d-flex align-items-center">
-                    <span class="me-3">Hello, {{ Auth::user()->name }}</span>
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <img src="https://via.placeholder.com/40" class="rounded-circle" alt="User">
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">Logout</a></li>
-                        </ul>
-                    </div>
+        <div class="flex-1 p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold">Add Product</h1>
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <i class="fas fa-user-circle text-gray-600 text-xl"></i>
                 </div>
-            </nav>
-
-            <div class="container mt-4">
-                <h3>Edit Produk</h3>
+            </div>
+            <!-- Content -->
+            <div class="bg-white p-6 rounded-lg shadow">
                 <form action="{{ route('produk.update', $produk->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label>Kategori</label>
-                        <select name="id_kategoris" class="form-control">
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Product Name</label>
+                        <input class="border border-gray-300 rounded px-4 py-2 w-full" value="{{ $produk->nama_produk }}" name="nama_produk"  type="text"/>
+                    </div>
+                    <div class="mb-4">
+                        <label for="id_kategoris" class="block text-gray-700">Category</label>
+                        <select name="id_kategoris" id="id_kategoris" class="border border-gray-300 rounded px-4 py-2 w-full" required>
+                            <option value="">-- Pilih Kategori --</option>
                             @foreach($kategoris as $kategori)
-                                <option value="{{ $kategori->id }}" {{ $produk->id_kategoris == $kategori->id ? 'selected' : '' }}>{{ $kategori->nama_kategori }}</option>
+                                <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label>Nama Produk</label>
-                        <input type="text" name="nama_produk" class="form-control" value="{{ $produk->nama_produk }}" required>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">purchase price</label>
+                        <input class="border border-gray-300 rounded px-4 py-2 w-full" value="{{ $produk->harga_beli }}" name="harga_beli"  type="number"/>
                     </div>
-                    <div class="mb-3">
-                        <label>Harga Beli</label>
-                        <input type="number" name="harga_beli" class="form-control" value="{{ $produk->harga_beli }}" required>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Selling price</label>
+                        <input class="border border-gray-300 rounded px-4 py-2 w-full" value="{{ $produk->harga_jual }}" name="harga_jual"  type="number"/>
                     </div>
-                    <div class="mb-3">
-                        <label>Harga Jual</label>
-                        <input type="number" name="harga_jual" class="form-control" value="{{ $produk->harga_jual }}" required>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Stock</label>
+                        <input class="border border-gray-300 rounded px-4 py-2 w-full" value="{{ $produk->stok }}" name="stok"  type="number"/>
                     </div>
-                    <div class="mb-3">
-                        <label>Stok</label>
-                        <input type="number" name="stok" class="form-control" value="{{ $produk->stok }}" required>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Barcode</label>
+                        <input class="border border-gray-300 rounded px-4 py-2 w-full" value="{{ $produk->barcode }}" name="barcode" type="number"/>
                     </div>
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali</a>
+                    
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="{{ asset('js/admin.js') }}"></script>
+    <script>
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
 </body>
 </html>

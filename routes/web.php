@@ -44,7 +44,14 @@ Route::middleware(['auth' => 'admin'])->group(function ()
     ;
     Route::resource('laporan', LaporanController::class);
     Route::post('/penjualan/bulk-delete', [PenjualanController::class, 'bulkDelete'])->name('penjualan.bulk_delete');
+    Route::get('/laporan/filter', [LaporanController::class, 'filterLaporan'])->name('laporan.filter');
+
 });
+
+Route::get('/search-product', [PenjualanController::class, 'searchProduct']);
+Route::get('/search-member', [PenjualanController::class, 'searchMember']);
+Route::post('/store-transaction', [PenjualanController::class, 'storeTransaction']);
+
 
 Route::middleware(['auth' => 'petugas'])->group(function () 
 {

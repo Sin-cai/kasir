@@ -19,7 +19,7 @@ class e extends Seeder
             'id_users' => 1, // Pastikan user dengan ID 1 ada
             'id_pelanggans' => 1, // Pastikan pelanggan dengan ID 1 ada
             'diskon' => 15.00,
-            'total_harga' => 200000.00,
+            'total_harga' => 8500.00,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -29,18 +29,9 @@ class e extends Seeder
             [
                 'id_penjualans' => $penjualanId,
                 'id_produks' => 1, // Pastikan produk dengan ID 1 ada
-                'harga_jual' => 50000.00,
-                'qty' => 2,
-                'sub_total' => 100000.00,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'id_penjualans' => $penjualanId,
-                'id_produks' => 2, // Pastikan produk dengan ID 2 ada
-                'harga_jual' => 50000.00,
-                'qty' => 2,
-                'sub_total' => 100000.00,
+                'harga_jual' => 10000.00,
+                'qty' => 1,
+                'sub_total' => 10000.00,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

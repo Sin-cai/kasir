@@ -108,12 +108,12 @@
                             <td>{{ ucfirst($user->role) }}</td>
                             <td>{{ ucfirst($user->status) }}</td>
                             <td class="py-2 flex space-x-2">
-                                <button class="bg-blue-500 text-white px-2 py-1 rounded">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="bg-red-500 text-white px-2 py-1 rounded">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <a href="{{ route('users.edit', $user->id) }}"  class="bg-blue-500 text-white px-2 py-1 rounded fas fa-edit",>Edit</a>
+                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded fas fa-trash" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                    </form>
                             </td>
                         </tr>
                         @endforeach

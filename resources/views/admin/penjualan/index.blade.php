@@ -74,7 +74,9 @@
             <div class="bg-white p-6 rounded-lg shadow">
                 <div class="flex justify-between items-center mb-4">
                     <input class="border border-gray-300 rounded px-4 py-2 w-1/3" placeholder="Search a transaction" type="text"/>
-                    <button class="bg-green-500 text-white px-4 py-2 rounded">Add new transaction</button>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded">
+                        <a href="{{ route('penjualan.create') }}" class="btn btn-primary mb-3">Transaction</a>
+                    </button>
                 </div>
                 <div>
                     <button id="delete-selected" class="bg-red-500 text-white px-4 py-2 rounded">Delete selected</button>

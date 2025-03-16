@@ -60,7 +60,7 @@
         <div class="flex-1 p-6">
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-3xl font-bold">Add Member</h1>
+                <h1 class="text-3xl font-bold">Add Kategori</h1>
                 <div class="flex items-center space-x-4">
                     <i class="fas fa-bell text-gray-600 text-xl"></i>
                     <i class="fas fa-user-circle text-gray-600 text-xl"></i>
