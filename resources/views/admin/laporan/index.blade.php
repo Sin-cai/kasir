@@ -26,11 +26,15 @@
         <!-- Sidebar -->
         <div id="sidebar" class="bg-green-800 w-64 min-h-screen flex flex-col sidebar">
             <div class="flex items-center justify-between h-20 border-b border-green-700 px-4">
-                <h1 class="text-white text-2xl sidebar-item-text">Cashier Dashboard</h1>
-                <button id="toggleSidebar" class="text-white">
+                <div class="flex items-center">
+                    <img src="{{ asset('img/zen.png') }}" alt="PT Zen Logo" class="h-10 w-10 mr-2 ">
+                    <h1 class="text-white text-2xl sidebar-item-text font-bold">PT Zen</h1>
+                </div>
+                
+            </div>
+            <button id="toggleSidebar" class="text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-            </div>
             <div class="flex-grow">
                 <nav class="mt-10">
                     <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('admin.index') }}">

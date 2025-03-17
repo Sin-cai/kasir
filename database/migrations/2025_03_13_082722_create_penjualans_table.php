@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_pelanggans');
             $table->decimal('diskon');
             $table->decimal('total_harga');
+            $table->decimal('bayar');
+            $table->decimal('kembali');
             $table->timestamps();
 
             $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');

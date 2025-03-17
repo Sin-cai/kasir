@@ -20,6 +20,8 @@ class e extends Seeder
             'id_pelanggans' => 1, // Pastikan pelanggan dengan ID 1 ada
             'diskon' => 15.00,
             'total_harga' => 8500.00,
+            'bayar' => 10000.00,
+            'kembali' => 1500.00,    
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

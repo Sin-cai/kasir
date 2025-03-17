@@ -12,6 +12,9 @@ class Penjualan extends Model
         'id_pelanggans',
         'diskon',
         'total_harga',
+        'bayar',
+        'total_harga',
+        'kembali',
         'tanggal_penjualan'
     ];
 

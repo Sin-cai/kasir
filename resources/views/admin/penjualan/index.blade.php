@@ -22,11 +22,15 @@
         <!-- Sidebar -->
         <div id="sidebar" class="bg-green-800 w-64 min-h-screen flex flex-col sidebar">
             <div class="flex items-center justify-between h-20 border-b border-green-700 px-4">
-                <h1 class="text-white text-2xl sidebar-item-text">Cashier Dashboard</h1>
-                <button id="toggleSidebar" class="text-white">
+                <div class="flex items-center">
+                    <img src="{{ asset('img/zen.png') }}" alt="PT Zen Logo" class="h-10 w-10 mr-2 ">
+                    <h1 class="text-white text-2xl sidebar-item-text font-bold">PT Zen</h1>
+                </div>
+                
+            </div>
+            <button id="toggleSidebar" class="text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-            </div>
             <div class="flex-grow">
                 <nav class="mt-10">
                     <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('admin.index') }}">
@@ -127,11 +131,29 @@
                                     </td>
                                     <td>
                                         <div class="flex space-x-2">
-                                            <button class="bg-gray-200 p-2 rounded"><i class="fas fa-print"></i></button>
-                                            <button class="bg-orange-400 p-2 rounded"><i class="fas fa-print"></i></button>
-                                            <button class="bg-red-500 p-2 rounded"><i class="fas fa-file-pdf"></i></button>
-                                            <button class="bg-blue-400 p-2 rounded"><i class="fas fa-paper-plane"></i></button>
+                                            <!-- Tombol Cetak Nota -->
+                                            <a href="{{ route('nota', $penjualan->id) }}" target="_blank" 
+                                               class="px-4 py-2 bg-blue-500 text-white rounded shadow flex items-center space-x-2">
+                                                <i class="fas fa-print"></i>
+           
+                                            </a>
+                                        
+                                            <!-- Tombol Cetak Invoice -->
+                                            <a href="{{ route('invoice', $penjualan->id) }}" target="_blank" 
+                                               class="px-4 py-2 bg-orange-400 text-white rounded shadow flex items-center space-x-2">
+                                                <i class="fas fa-print"></i>
+                                 
+                                            </a>
+                                        
+                                            <!-- Tombol Download PDF -->
+                                            <a href="{{ route('invoice.pdf', $penjualan->id) }}" target="_blank" 
+                                               class="px-4 py-2 bg-red-500 text-white rounded shadow flex items-center space-x-2">
+                                                <i class="fas fa-file-pdf"></i>
+                                         
+                                            </a>
                                         </div>
+                                        
+                                        
                                     </td>
                                 </tr>
                         @endforeach

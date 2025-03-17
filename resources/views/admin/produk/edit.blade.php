@@ -59,13 +59,16 @@
         <!-- Main Content -->
         <div class="flex-1 p-6">
             <!-- Header -->
-            <div class="flex justify-between items-center mb-6">
-                <h1 class="text-3xl font-bold">Add Product</h1>
-                <div class="flex items-center space-x-4">
-                    <i class="fas fa-bell text-gray-600 text-xl"></i>
-                    <i class="fas fa-user-circle text-gray-600 text-xl"></i>
+            <div class="flex items-center justify-between h-20 border-b border-green-700 px-4">
+                <div class="flex items-center">
+                    <img src="{{ asset('img/zen.png') }}" alt="PT Zen Logo" class="h-10 w-10 mr-2 ">
+                    <h1 class="text-white text-2xl sidebar-item-text font-bold">PT Zen</h1>
                 </div>
+                
             </div>
+            <button id="toggleSidebar" class="text-white">
+                    <i class="fas fa-bars"></i>
+                </button>
             <!-- Content -->
             <div class="bg-white p-6 rounded-lg shadow">
                 <form action="{{ route('produk.update', $produk->id) }}" method="POST">

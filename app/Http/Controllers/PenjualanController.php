@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class PenjualanController extends Controller
 {
@@ -32,40 +33,48 @@ class PenjualanController extends Controller
     }
 
     public function storeTransaction(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            if (!Auth::check()) {
-                return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
-            }
-
-            $diskon = ($request->id_pelanggan) ? 15 : 0;
-            $total_harga = $request->total_harga;
-         
-            $penjualan = Penjualan::create([
-                'id_users' => Auth::id(),
-                'id_pelanggans' => $request->id_pelanggan,
-                'diskon' => $diskon,
-                'total_harga' => $total_harga,
-            ]);
-
-            foreach ($request->items as $item) {
-                DetailPenjualan::create([
-                    'id_penjualans' => $penjualan->id,
-                    'id_produks' => $item['id'],
-                    'harga_jual' => $item['harga'],
-                    'qty' => $item['qty'],
-                    'sub_total' => $item['harga'] * $item['qty'],
-                ]);
-            }
-
-            DB::commit();
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+{
+    DB::beginTransaction();
+    try {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
         }
+
+        $diskon = ($request->id_pelanggan) ? 15 : 0;
+        $total_harga = $request->total_harga;
+        $bayar = $request->bayar;
+        $kembali = $bayar - $total_harga; // Hitung kembalian otomatis
+     
+        $penjualan = Penjualan::create([
+            'id_users' => Auth::id(),
+            'id_pelanggans' => $request->id_pelanggan,
+            'diskon' => $diskon,
+            'total_harga' => $total_harga,
+            'bayar' => $bayar,
+            'kembali' => $kembali,
+        ]);
+
+        foreach ($request->items as $item) {
+            DetailPenjualan::create([
+                'id_penjualans' => $penjualan->id,
+                'id_produks' => $item['id'],
+                'harga_jual' => $item['harga'],
+                'qty' => $item['qty'],
+                'sub_total' => $item['harga'] * $item['qty'],
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'redirect_url' => route('print', ['id' => $penjualan->id]) // Redirect ke halaman cetak nota
+        ]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
     }
+}
 
     public function search(Request $request)
     {
@@ -140,4 +149,41 @@ class PenjualanController extends Controller
             return redirect()->route('penjualan.index')->with('error', 'Gagal memperbarui data penjualan.');
         }
     }
+
+    public function printPage($id)
+    {
+        $penjualan = Penjualan::with('detailPenjualan.produk', 'user', 'pelanggan')->findOrFail($id);
+        return view('print', compact('penjualan'));
+    }
+    
+    public function cetakNota($id)
+    {
+        $penjualan = Penjualan::with('detailPenjualan.produk', 'user', 'pelanggan')->findOrFail($id);
+    
+        // $pdf = PDF::loadView('nota', compact('penjualan'))->setPaper([0, 0, 226.77, 600]); // Ukuran kecil seperti nota
+        // return $pdf->stream("nota_penjualan_$id.pdf"); // Langsung tampilkan PDF
+
+        return view('nota', compact('penjualan'));
+    }
+
+    public function cetakInvoice($id)
+    {
+        $penjualan = Penjualan::with('detailPenjualan.produk', 'user', 'pelanggan')->findOrFail($id);
+    
+       
+        return view('invoice', compact('penjualan'));
+    }
+
+    public function cetakInvoicePDF($id)
+    {
+        $penjualan = Penjualan::with('detailPenjualan.produk', 'user', 'pelanggan')->findOrFail($id);
+    
+        $pdf = Pdf::loadView('invoicepdf', compact('penjualan'))
+                  ->setPaper('A4', 'portrait'); // Ukuran A4, orientasi potrait
+    
+        return $pdf->stream("invoice_$id.pdf"); // Langsung tampilkan PDF
+    }
+
+   
+
 }

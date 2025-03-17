@@ -23,18 +23,22 @@
         <!-- Sidebar -->
         <div id="sidebar" class="bg-green-800 w-64 min-h-screen flex flex-col sidebar">
             <div class="flex items-center justify-between h-20 border-b border-green-700 px-4">
-                <h1 class="text-white text-2xl sidebar-item-text">Cashier Dashboard</h1>
-                <button id="toggleSidebar" class="text-white">
+                <div class="flex items-center">
+                    <img src="{{ asset('img/zen.png') }}" alt="PT Zen Logo" class="h-10 w-10 mr-2 ">
+                    <h1 class="text-white text-2xl sidebar-item-text font-bold">PT Zen</h1>
+                </div>
+                
+            </div>
+            <button id="toggleSidebar" class="text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-            </div>
             <div class="flex-grow">
                 <nav class="mt-10">
                     <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="#">
                         <i class="fas fa-home mr-3"></i>
                         <span class="sidebar-item-text">Home</span>
                     </a>
-                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="#">
+                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="#"> 
                         <i class="fas fa-cash-register mr-3"></i>
                         <span class="sidebar-item-text">Transactions</span>
                     </a>
@@ -122,15 +126,16 @@
                     <p><strong></strong> <span id="selected_member"></span></p>
                 <!-- Input Pembayaran -->
                 <div class="mb-4">
-                    <label class="block text-gray-700">Input Pembayaran</label>
-                    <input class="border border-gray-300 rounded px-4 py-2 w-full" id="diterima" placeholder="Enter payment amount" type="number"/>
+                    <label class="block text-gray-700">Bayar</label>
+                    <input class="border border-gray-300 rounded px-4 py-2 w-full" id="bayar" placeholder="Enter payment amount" type="number"/>
                 </div>
-                <!-- Kembalian -->
+                
+                <!-- Kembali -->
                 <div class="flex justify-end">
                     <div class="w-1/3">
                         <div class="flex justify-between mb-2">
-                            <span class="text-gray-700">Kembalian:</span>
-                            <input type="text" class="form-control" id="kembalian" readonly>
+                            <span class="text-gray-700">Kembali:</span>
+                            <input type="text" class="form-control" id="kembali" readonly>
                         </div>
                     </div>
                 </div>
@@ -269,50 +274,53 @@
  }
 
  // Menghitung kembalian saat uang diterima diinputkan
- $('#diterima').on('input', function () {
-     updateKembalian();
- });
+ $('#bayar').on('input', function () {
+    updateKembalian();
+});
 
  function updateKembalian() {
-     let totalBayar = parseFloat($('#total-harga').text()) || 0;
-     let diterima = parseFloat($('#diterima').val()) || 0;
-     let kembalian = diterima - totalBayar;
-     $('#kembalian').val(kembalian >= 0 ? kembalian.toFixed(2) : 0);
- }
+    let totalBayar = parseFloat($('#total-harga').text()) || 0;
+    let bayar = parseFloat($('#bayar').val()) || 0;
+    let kembali = bayar - totalBayar;
+    $('#kembali').val(kembali >= 0 ? kembali.toFixed(2) : 0);
+}
 });
 
 $(document).ready(function () {
- $('#simpan-transaksi').on('click', function () {
-     let items = [];
-     $('#cart-body tr').each(function () {
-         let id = $(this).find('td:first').text();
-         let harga = $(this).find('.harga').text();
-         let qty = $(this).find('.qty').val();
-         items.push({ id: id, harga: harga, qty: qty });
-     });
+    $('#simpan-transaksi').on('click', function () {
+    let items = [];
+    $('#cart-body tr').each(function () {
+        let id = $(this).find('td:first').text();
+        let harga = $(this).find('.harga').text();
+        let qty = $(this).find('.qty').val();
+        items.push({ id: id, harga: harga, qty: qty });
+    });
 
-     let data = {
-         id_pelanggan: $('#id_pelanggan').val(),
-         total_harga: $('#total-harga').text(),
-         items: items
-     };
+    let data = {
+        id_pelanggan: $('#id_pelanggan').val(),
+        total_harga: $('#total-harga').text(),
+        diskon: $('#diskon').val().replace('%', ''), // Menghapus simbol '%' jika ada
+        bayar: $('#bayar').val(), // Mengambil nilai dari input bayar
+        kembali: $('#kembali').val(), // Mengambil nilai dari input kembali
+        items: items
+    };
 
-     $.ajax({
-         url: '/store-transaction',
-         method: 'POST',
-         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-         contentType: 'application/json',
-         data: JSON.stringify(data),
-         success: function (response) {
-             if (response.success) {
-                 alert('Transaksi berhasil!');
-                 location.reload();
-             } else {
-                 alert('Gagal menyimpan transaksi: ' + response.message);
-             }
-         }
-     });
- });
+    $.ajax({
+        url: '/store-transaction',
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+            if (response.success) {
+                window.location.href = response.redirect_url; // Arahkan ke halaman cetak nota
+            } else {
+                alert('Gagal menyimpan transaksi: ' + response.message);
+            }
+        }
+    });
+});
+
 });
      </script>
 </body>
