@@ -37,7 +37,7 @@
         <div class="text-left text-sm">
         @foreach ($penjualan->detailPenjualan as $item)
             <p>{{ $item->produk->nama_produk }}<br>
-                {{ number_format($item->harga_jual, 0, ',', '.') }} x {{ $item->qty }} = 
+                {{ number_format($item->harga_jual, 0, ',', '.') }} x {{ $item->qty }} - {{ $item->diskon_produk }}% = 
                 {{ number_format($item->sub_total, 0, ',', '.') }}</p>
          @endforeach
         </div>

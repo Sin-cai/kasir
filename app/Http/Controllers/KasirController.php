@@ -13,31 +13,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
-class PenjualanController extends Controller
+class KasirController extends Controller
 {
     public function index()
     {
         $penjualans = Penjualan::with(['user', 'pelanggan', 'detailPenjualan.produk'])
-                ->paginate(5); // Batasi 5 data per halaman
-        return view('admin.penjualan.index', compact('penjualans'));
+        ->paginate(5); // Batasi 5 data per halaman
+        return view('petugas.kasir.index', compact('penjualans'));
     }
 
     public function create()
     {
-        return view('admin.penjualan.create');
+        return view('petugas.kasir.create');
     }
 
     public function searchProduct(Request $request)
     {
-        $query = $request->query('query');
-    
-        $products = Produk::where('nama_produk', 'LIKE', "%{$query}%")
-                          ->orWhere('barcode', 'LIKE', "%{$query}%")
+        $products = Produk::where('nama_produk', 'like', '%' . $request->query('query') . '%')
+                          ->orWhere('barcode', 'like', '%' . $request->query('query') . '%')
                           ->get();
     
         return response()->json($products);
     }
-    public function store(Request $request)
+
+    public function storeTransaction(Request $request)
 {
     DB::beginTransaction();
     try {
@@ -59,44 +58,29 @@ class PenjualanController extends Controller
             'kembali' => $kembali,
         ]);
 
-        
         foreach ($request->items as $item) {
-            $diskon_produk = $item['diskon_produk'] ?? 0; // Jika tidak diisi, dianggap 0
-            $harga_setelah_diskon = $item['harga'] - ($item['harga'] * $diskon_produk / 100);
-            $sub_total = $harga_setelah_diskon * $item['qty']; // Hitung subtotal setelah diskon produk
-        
             DetailPenjualan::create([
                 'id_penjualans' => $penjualan->id,
                 'id_produks' => $item['id'],
                 'harga_jual' => $item['harga'],
                 'qty' => $item['qty'],
-                'diskon_produk' => $diskon_produk, // Simpan diskon produk
-                'sub_total' => $sub_total, // Simpan subtotal setelah diskon
+                'sub_total' => $item['harga'] * $item['qty'],
             ]);
         }
-        
+
         DB::commit();
 
         return response()->json([
             'success' => true,
-            'redirect_url' => '/penjualan/nota/'.$penjualan->id,
+            'redirect' => route('print2', ['id' => $penjualan->id]) // Redirect ke halaman cetak nota
         ]);
     } catch (\Exception $e) {
         DB::rollBack();
-        return response()->json(['Error' => false, 'message' => $e->getMessage()]);
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
     }
 }
 
-    public function search(Request $request)
-    {
-        $query = $request->query('query');
 
-        $products = Produk::where('nama_produk', 'LIKE', "%{$query}%")
-                          ->orWhere('kode_produk', 'LIKE', "%{$query}%")
-                          ->get();
-
-        return response()->json($products);
-    }
 
     public function searchMember(Request $request)
 {
@@ -109,7 +93,7 @@ class PenjualanController extends Controller
     {
         $penjualan = Penjualan::findOrFail($id);
         $penjualan->delete();
-        return redirect()->route('penjualan.index')->with('success', 'Data penjualan berhasil dihapus.');
+        return redirect()->route('kasir.index')->with('success', 'Data penjualan berhasil dihapus.');
     }
     public function bulkDelete(Request $request)
 {
@@ -161,13 +145,13 @@ class PenjualanController extends Controller
         }
     }
 
-    public function printPage($id)
+    public function printtPage($id)
     {
         $penjualan = Penjualan::with('detailPenjualan.produk', 'user', 'pelanggan')->findOrFail($id);
-        return view('print', compact('penjualan'));
+        return view('print2', compact('penjualan'));
     }
     
-    public function show($id)
+    public function cetakNota($id)
     {
         $penjualan = Penjualan::with('detailPenjualan.produk', 'user', 'pelanggan')->findOrFail($id);
     
@@ -194,7 +178,5 @@ class PenjualanController extends Controller
     
         return $pdf->stream("invoice_$id.pdf"); // Langsung tampilkan PDF
     }
-
-   
 
 }

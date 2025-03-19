@@ -61,6 +61,10 @@
                         <i class="fas fa-user mr-3"></i>
                         <span class="sidebar-item-text">Users</span>
                     </a>
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
+                        <i ></i>
+                        <span class="sidebar-item-text">Log Out</span>
+                    </a>
                 </nav>
             </div>
         </div>

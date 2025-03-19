@@ -1,48 +1,108 @@
-<!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7fafc;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header, .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header img, .footer img {
+            height: 50px;
+        }
+        .header div, .footer div {
+            text-align: right;
+        }
+        .header div p, .footer div p {
+            margin: 0;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .section p {
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .font-bold {
+            font-weight: bold;
+        }
+        .bg-green {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-4xl mx-auto bg-white p-8 shadow-md">
-        <div class="flex justify-between items-center mb-4">
+<body>
+    <div class="container">
+        <div class="header">
             <div>
-                <img src="{{ asset('img/zen.png') }}" alt="logo" class="h-16 mb-2">
-                <h2 class="text-xl font-bold">PT Zen</h2>
-                <p>
-                    PT Zen<br/>
-                   
-                    Bantul, Bantul<br/> DIYogyakarta
-                </p>
+                
+                <h2>PT Zen</h2>
+                <p><br>Bantul, Bantul<br>DIYogyakarta</p>
             </div>
-            <div class="text-right">
-                <div class="bg-green-300 text-green-800 px-4 py-2 rounded">LUNAS</div>
-                <img src="https://storage.googleapis.com/a1aa/image/xods7SN4ApZHBDrKtuP6qFw6R81ZLEeSxf1MOEBf8iM.jpg" alt="Barcode" class="mt-2" width="150" height="50">
-                <p>0004/INV/IK/2024</p>
+            <div>
+        
+              
+
             </div>
         </div>
-        
-        <h1 class="text-2xl font-bold text-center mb-4">INVOICE</h1>
-        
-        <div class="mb-4">
-            <h2 class="text-lg font-bold">Pembeli</h2>
+        <div class="title">INVOICE</div>
+        <div class="section">
+            <h2>Pembeli</h2>
             <p>Nama: {{ $penjualan->pelanggan->nama ?? 'Umum' }}
         </div>
-        
-        <div class="mb-4">
-            <h2 class="text-lg font-bold">Transaksi</h2>
-            <table class="w-full border-collapse border border-gray-300">
+        <div class="section">
+            <h2>Transaksi</h2>
+            <table>
                 <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border border-gray-300 px-4 py-2">No</th>
-                        <th class="border border-gray-300 px-4 py-2">Deskripsi</th>
-                        <th class="border border-gray-300 px-4 py-2">Harga Satuan</th>
-                        <th class="border border-gray-300 px-4 py-2">Kuantitas</th>
-                        <th class="border border-gray-300 px-4 py-2">Sub Total</th>
+                    <tr>
+                        <th class="border border-gray-400 p-2">No</th>
+                    <th class="border border-gray-400 p-2">Deskripsi</th>
+                    <th class="border border-gray-400 p-2">Harga Satuan</th>
+                    <th class="border border-gray-400 p-2">Kuantitas</th>
+                    <th class="border border-gray-400 p-2">Sub Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,29 +132,9 @@
                         <td class="border border-gray-400 p-2 text-right">{{ number_format($penjualan->kembali ?? 0, 0, ',', '.') }}</td>
                     </tr>
                 </tbody>
-        </table>
-        
-        <div class="mt-4">
-            <h2 class="text-lg font-bold">Pembayaran</h2>
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border border-gray-300 px-4 py-2">Tanggal Pembayaran</th>
-                        <th class="border border-gray-300 px-4 py-2">Nominal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border border-gray-300 px-4 py-2">30 Oktober 2024</td>
-                        <td class="border border-gray-300 px-4 py-2 text-right">100.000</td>
-                    </tr>
-                    <tr class="font-bold">
-                        <td class="border border-gray-300 px-4 py-2">TOTAL</td>
-                        <td class="border border-gray-300 px-4 py-2 text-right">100.000</td>
-                    </tr>
-                </tbody>
             </table>
         </div>
+      
     </div>
 </body>
 </html>

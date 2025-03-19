@@ -31,42 +31,26 @@
             <button id="toggleSidebar" class="text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-            <div class="flex-grow">
-                <nav class="mt-10">
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('admin.index') }}">
-                        <i class="fas fa-home mr-3"></i>
-                        <span class="sidebar-item-text">Home</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('penjualan.index') }}">
-                        <i class="fas fa-cash-register mr-3"></i>
-                        <span class="sidebar-item-text">Transactions</span>
-                    </a>
-                    <a  class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('produk.index') }}">
-                        <i class="fas fa-box-open mr-3"></i>
-                        <span class="sidebar-item-text">Products</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('kategori.index') }}">
-                        <i class="fas fa-tags mr-3"></i>
-                        <span class="sidebar-item-text">Category</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('pelanggan.index') }}">
-                        <i class="fas fa-id-card mr-3"></i>
-                        <span class="sidebar-item-text">Membership</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('laporan.index') }}">
-                        <i class="fas fa-chart-line mr-3"></i>
-                        <span class="sidebar-item-text">Reports</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('users.index') }}">
-                        <i class="fas fa-user mr-3"></i>
-                        <span class="sidebar-item-text">Users</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
-                        <i ></i>
-                        <span class="sidebar-item-text">Log Out</span>
-                    </a>
-                </nav>
-            </div>
+                <div class="flex-grow">
+                    <nav class="mt-10">
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('petugas.index') }}">
+                            <i class="fas fa-home mr-3"></i>
+                            <span class="sidebar-item-text">Home</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('kasir.index') }}">
+                            <i class="fas fa-cash-register mr-3"></i>
+                            <span class="sidebar-item-text">Transactions</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('member.index') }}">
+                            <i class="fas fa-id-card mr-3"></i>
+                            <span class="sidebar-item-text">Membership</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
+                            <i ></i>
+                            <span class="sidebar-item-text">Log Out</span>
+                        </a>
+                    </nav>
+                </div>
         </div>
         <!-- Main Content -->
         <div class="flex-1 p-6">
@@ -80,7 +64,7 @@
             </div>
             <!-- Content -->
             <div class="bg-white p-6 rounded-lg shadow">
-                <form action="{{ route('pelanggan.store') }}" method="POST">
+                <form action="{{ route('member.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label class="block text-gray-700">Member Name</label>

@@ -31,42 +31,26 @@
             <button id="toggleSidebar" class="text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-            <div class="flex-grow">
-                <nav class="mt-10">
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('admin.index') }}">
-                        <i class="fas fa-home mr-3"></i>
-                        <span class="sidebar-item-text">Home</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('penjualan.index') }}">
-                        <i class="fas fa-cash-register mr-3"></i>
-                        <span class="sidebar-item-text">Transactions</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('produk.index') }}">
-                        <i class="fas fa-box-open mr-3"></i>
-                        <span class="sidebar-item-text">Products</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('kategori.index') }}">
-                        <i class="fas fa-tags mr-3"></i>
-                        <span class="sidebar-item-text">Category</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('pelanggan.index') }}">
-                        <i class="fas fa-id-card mr-3"></i>
-                        <span class="sidebar-item-text">Membership</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('laporan.index') }}">
-                        <i class="fas fa-chart-line mr-3"></i>
-                        <span class="sidebar-item-text">Reports</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('users.index') }}">
-                        <i class="fas fa-user mr-3"></i>
-                        <span class="sidebar-item-text">Users</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
-                        <i ></i>
-                        <span class="sidebar-item-text">Log Out</span>
-                    </a>
-                </nav>
-            </div>
+                <div class="flex-grow">
+                    <nav class="mt-10">
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('petugas.index') }}">
+                            <i class="fas fa-home mr-3"></i>
+                            <span class="sidebar-item-text">Home</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('kasir.index') }}">
+                            <i class="fas fa-cash-register mr-3"></i>
+                            <span class="sidebar-item-text">Transactions</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('member.index') }}">
+                            <i class="fas fa-id-card mr-3"></i>
+                            <span class="sidebar-item-text">Membership</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
+                            <i ></i>
+                            <span class="sidebar-item-text">Log Out</span>
+                        </a>
+                    </nav>
+                </div>
         </div>
         <!-- Main Content -->
         <div class="flex-1 p-6">
@@ -83,54 +67,40 @@
                 <div class="flex justify-between items-center mb-4">
                     <input class="border border-gray-300 rounded px-4 py-2 w-1/3" placeholder="Search a transaction" type="text"/>
                     <button class="bg-green-500 text-white px-4 py-2 rounded">
-                        <a href="{{ route('penjualan.create') }}" class="btn btn-primary mb-3">Transaction</a>
+                        <a href="{{ route('kasir.create') }}" class="btn btn-primary mb-3">Transaction</a>
                     </button>
                 </div>
-                <div>
-                    <button id="delete-selected" class="bg-red-500 text-white px-4 py-2 rounded">Delete selected</button>
-                </div>
+
                 <table class="w-full text-left">
                     <thead>
                         <tr class="text-gray-600">
-                            <th><input type="checkbox" id="select-all">all</th>
+
                             <th class="pb-2">Nama User</th>
                             <th class="pb-2">Nama Pelanggan</th>
                             <th class="pb-2">Nama Produk</th>
                             <th class="pb-2">Harga Jual</th>
                             <th class="pb-2">Qty</th>
-                            <th class="pb-2">Diskon Produk</th>
                             <th class="pb-2">Subtotal</th>
-                            <th class="pb-2">Diskon Member</th>
+                            <th class="pb-2">Diskon</th>
                             <th class="pb-2">Total Harga</th>
                             <th class="pb-2">Tanggal</th>
-                            <th class="pb-2">Aksi</th>
                             <th class="pb-2">Print</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($penjualans as $penjualan)
                             @foreach ($penjualan->detailPenjualan as $detail)
                                 <tr>
-                                    <td><input type="checkbox" class="select-item" value="{{ $penjualan->id }}"></td>
                                     <td>{{ $penjualan->user->name ?? '' }}</td>
                                     <td>{{ $penjualan->pelanggan->nama ?? 'Non-Member' }}</td>
                                     <td>{{ $detail->produk->nama_produk }}</td>
                                     <td>{{ number_format($detail->harga_jual, 0, ',', '.') }}</td>
                                     <td>{{ $detail->qty }}</td>
-                                    <td>{{ $detail->diskon_produk}}%</td>
                                     <td>{{ number_format($detail->sub_total, 0, ',', '.') }}</td>
                                     <td>{{ $penjualan->diskon }}%</td>
                                     <td>{{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
                                     <td>{{ $penjualan->created_at->format('d-m-Y H:i') }}</td>
-                                    <td>
-                                        <form action="{{ route('penjualan.destroy', $penjualan->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button  type="submit" class="bg-red-500 text-white px-2 py-1 rounded"  onclick="return confirm('Hapus produk ini?')">
-                                                <i class="fas fa-trash"> Hapus</i>
-                                            </button>
-                                        </form>
-                                    </td>
                                     <td>
                                         <div class="flex space-x-2">
                                             <!-- Tombol Cetak Nota -->
@@ -140,19 +110,6 @@
            
                                             </a>
                                         
-                                            <!-- Tombol Cetak Invoice -->
-                                            <a href="{{ route('invoice', $penjualan->id) }}" target="_blank" 
-                                               class="px-4 py-2 bg-orange-400 text-white rounded shadow flex items-center space-x-2">
-                                                <i class="fas fa-print"></i>
-                                 
-                                            </a>
-                                        
-                                            <!-- Tombol Download PDF -->
-                                            <a href="{{ route('invoice.pdf', $penjualan->id) }}" target="_blank" 
-                                               class="px-4 py-2 bg-red-500 text-white rounded shadow flex items-center space-x-2">
-                                                <i class="fas fa-file-pdf"></i>
-                                         
-                                            </a>
                                         </div>
                                         
                                         
@@ -162,13 +119,9 @@
                         @endforeach
                     </tbody>
                 </table>
-                
-                <!-- Tambahkan Navigasi Pagination -->
                 <div class="mt-4">
                     {{ $penjualans->links() }} 
                 </div>
-                
-               
             </div>
         </div>
     </div>
@@ -208,24 +161,5 @@
             }
         });
     </script>
-    <script>
-        function deleteTransaction(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
-                fetch(`/penjualan/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.success || data.error);
-                    location.reload(); // Refresh halaman setelah hapus
-                })
-                .catch(error => console.error('Error:', error));
-            }
-        }
-        </script>
 </body>
 </html>

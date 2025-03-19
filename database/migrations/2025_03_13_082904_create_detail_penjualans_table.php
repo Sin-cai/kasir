@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_produks');
             $table->decimal('harga_jual');
             $table->integer('qty');
+            $table->decimal('diskon_produk')->nullable();
             $table->decimal('sub_total');
             $table->timestamps();
 

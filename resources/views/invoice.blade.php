@@ -53,6 +53,7 @@
                     <th class="border border-gray-400 p-2">Deskripsi</th>
                     <th class="border border-gray-400 p-2">Harga Satuan</th>
                     <th class="border border-gray-400 p-2">Kuantitas</th>
+                    <th class="border border-gray-400 p-2">Diskon Produk</th>
                     <th class="border border-gray-400 p-2">Sub Total</th>
                 </tr>
             </thead>
@@ -63,10 +64,12 @@
                         <td class="border border-gray-400 p-2">{{ $detail->produk->nama_produk ?? '-' }}</td>
                         <td class="border border-gray-400 p-2 text-center">{{ number_format($detail->harga_jual ?? 0, 0, ',', '.') }}</td>
                         <td class="border border-gray-400 p-2 text-right">{{ $detail->qty ?? 0 }}</td>
+                        <td class="border border-gray-400 p-2 text-right">{{ $detail->diskon_produk ?? 0 }}% </td>
                         <td class="border border-gray-400 p-2 text-right">{{ number_format($detail->sub_total ?? 0, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach
                 <tr>
+                    
                     <td class="border border-gray-400 p-2 text-right font-bold" colspan="4">Diskon</td>
                     <td class="border border-gray-400 p-2 text-right">{{ $penjualan->diskon ?? 0 }}% </td>
                 </tr>

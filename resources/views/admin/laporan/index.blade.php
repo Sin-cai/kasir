@@ -65,6 +65,11 @@
                         <i class="fas fa-user mr-3"></i>
                         <span class="sidebar-item-text">Users</span>
                     </a>
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
+                        <i ></i>
+                        <span class="sidebar-item-text">Log Out</span>
+                    </a>
+                    
                 </nav>
             </div>
         </div>
@@ -112,36 +117,37 @@
                 </div>
                 <!-- Download Buttons -->
                 <div class="flex justify-end mb-4">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded flex items-center mr-2">
-                        <i class="fas fa-file-pdf mr-2"></i> Download PDF
-                    </button>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded flex items-center">
-                        <i class="fas fa-file-excel mr-2"></i> Download Excel
-                    </button>
+                    <a id="cetakPDF" class="bg-red-500 text-white px-4 py-2 rounded cursor-pointer">
+                        <i class="fas fa-file-pdf"></i> Cetak Laporan PDF
+                    </a>
+                    <a href="{{ route('laporan.export.excel', ['tanggal_mulai' => request('tanggal_mulai'), 'tanggal_selesai' => request('tanggal_selesai')]) }}" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded">
+                        <i class="fas fa-file-excel"></i> Download Excel
+                     </a>
                 </div>
                 <!-- Table -->
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="text-gray-600">
-                            <th class="pb-2">No</th>
-                            <th class="pb-2">Date</th>
-                            <th class="pb-2">Employe</th>
-                            <th class="pb-2">Customer</th>
-                            <th class="pb-2">Discount</th>
-                            <th class="pb-2">Total</th>
-                            <th class="pb-2">Actions</th>
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead class="bg-green-700 text-white">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2 text-center">No</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">Date</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">Employee</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">Customer</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">Discount</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">Total</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">Actions</th>
                         </tr>
                     </thead>
-                   <tbody>
-                        @foreach ($penjualans as $penjualan)
-                        <tr>
-                            <td>{{ $penjualan->id }}</td>
-                            <td>{{ $penjualan->created_at->format('d-m-Y H:i') }}</td>
-                            <td>{{ $penjualan->user->name }}</td>
-                            <td>{{ $penjualan->pelanggan->nama ?? 'Umum' }}</td>
-                            <td>{{ $penjualan->diskon }}%</td>
-                            <td>Rp {{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
-                            <td>
+                    <tbody class="bg-white">
+                        @foreach ($penjualans as $index => $penjualan)
+                        <tr class="border border-gray-300 text-gray-700 hover:bg-gray-100">
+                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $index + 1 }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $penjualan->created_at->format('d-m-Y H:i') }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $penjualan->user->name }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $penjualan->pelanggan->nama ?? 'Umum' }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $penjualan->diskon }}%</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">Rp {{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
                                 <button class="view-details bg-blue-500 text-white px-3 py-1 rounded" 
                                     data-transaction-id="{{ $penjualan->id }}"
                                     data-details='@json($penjualan->detailPenjualan)'>
@@ -223,6 +229,14 @@
     document.getElementById('closeModal').addEventListener('click', function() {
         document.getElementById('modal').classList.add('hidden');
         document.body.classList.remove('modal-active');
+    });
+</script>
+
+<script>
+    document.getElementById('cetakPDF').addEventListener('click', function() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        window.open(`/laporan/pdf?tanggal_mulai=${startDate}&tanggal_selesai=${endDate}`, '_blank');
     });
 </script>
 

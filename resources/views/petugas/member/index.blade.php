@@ -31,42 +31,26 @@
             <button id="toggleSidebar" class="text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-            <div class="flex-grow">
-                <nav class="mt-10">
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('admin.index') }}">
-                        <i class="fas fa-home mr-3"></i>
-                        <span class="sidebar-item-text">Home</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('penjualan.index') }}">
-                        <i class="fas fa-cash-register mr-3"></i>
-                        <span class="sidebar-item-text">Transactions</span>
-                    </a>
-                    <a  class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('produk.index') }}">
-                        <i class="fas fa-box-open mr-3"></i>
-                        <span class="sidebar-item-text">Products</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('kategori.index') }}">
-                        <i class="fas fa-tags mr-3"></i>
-                        <span class="sidebar-item-text">Category</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('pelanggan.index') }}">
-                        <i class="fas fa-id-card mr-3"></i>
-                        <span class="sidebar-item-text">Membership</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('laporan.index') }}">
-                        <i class="fas fa-chart-line mr-3"></i>
-                        <span class="sidebar-item-text">Reports</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('users.index') }}">
-                        <i class="fas fa-user mr-3"></i>
-                        <span class="sidebar-item-text">Users</span>
-                    </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
-                        <i ></i>
-                        <span class="sidebar-item-text">Log Out</span>
-                    </a>
-                </nav>
-            </div>
+                <div class="flex-grow">
+                    <nav class="mt-10">
+                        <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('petugas.index') }}">
+                            <i class="fas fa-home mr-3"></i>
+                            <span class="sidebar-item-text">Home</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('kasir.index') }}">
+                            <i class="fas fa-cash-register mr-3"></i>
+                            <span class="sidebar-item-text">Transactions</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('member.index') }}">
+                            <i class="fas fa-id-card mr-3"></i>
+                            <span class="sidebar-item-text">Membership</span>
+                        </a>
+                        <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
+                            <i ></i>
+                            <span class="sidebar-item-text">Log Out</span>
+                        </a>
+                    </nav>
+                </div>
         </div>
         <!-- Main Content -->
         <div class="flex-1 p-6">
@@ -83,42 +67,29 @@
                 <div class="flex justify-between items-center mb-4">
                     <input class="border border-gray-300 rounded px-4 py-2 w-1/3" placeholder="Search a member" type="text"/>
                     <button  class="bg-green-500 text-white px-4 py-2 rounded">
-                        <a href="{{ route('pelanggan.create') }}" class="btn btn-primary">Tambah Pelanggan</a>
+                        <a href="{{ route('member.create') }}" class="btn btn-primary">Tambah Pelanggan</a>
                     </button>
                 </div>
-                <div class="flex justify-between items-center mb-4">
-                    <button id="delete-selected" class="bg-red-500 text-white px-4 py-2 rounded">Delete selected</button>
-                    <div class="flex space-x-2">
-                      
-                    </div>
-                </div>
+ 
                 <table class="w-full text-left">
                     <thead>
                         <tr class="text-gray-600">
-                            <th><input type="checkbox" id="select-all">all</th>
+   
                             <th class="pb-2">No</th>
                             <th class="pb-2">Name</th>
                             <th class="pb-2">Alamar</th>
                             <th class="pb-2">Phone</th>
-                            <th class="pb-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($pelanggans as $key => $pelanggan)
                         <tr>
-                            <td><input type="checkbox" class="select-item" value="{{ $pelanggan->id }}"></td>
+   
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $pelanggan->nama }}</td>
                             <td>{{ $pelanggan->alamat }}</td>
                             <td>{{ $pelanggan->hp }}</td>
-                            <td>
-                                <a href="{{ route('pelanggan.edit', $pelanggan->id) }}" class="bg-blue-500 text-white px-2 py-1 rounded fas fa-edit",>Edit</a>
-                                <form action="{{ route('pelanggan.destroy', $pelanggan->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded fas fa-trash" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                                </form>
-                            </td>
+                            
                         </tr>
                         @endforeach
                 </table>

@@ -5,17 +5,6 @@
     <title>Cashier Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <style>
-        .sidebar {
-            transition: width 0.3s;
-        }
-        .sidebar.collapsed {
-            width: 64px;
-        }
-        .sidebar.collapsed .sidebar-item-text {
-            display: none;
-        }
-    </style>
 </head>
 <body class="bg-gray-100">
     <div class="flex">
@@ -26,16 +15,15 @@
                     <img src="{{ asset('img/zen.png') }}" alt="PT Zen Logo" class="h-10 w-10 mr-2 ">
                     <h1 class="text-white text-2xl sidebar-item-text font-bold">PT Zen</h1>
                 </div>
-                
             </div>
             <button id="toggleSidebar" class="text-white">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="flex-grow">
                 <nav class="mt-10">
                     <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('admin.index') }}">
                         <i class="fas fa-home mr-3"></i>
-                        <span class="sidebar-item-text">Home</span>
+                        <span class="sidebar-item-text">Dashboard</span>
                     </a>
                     <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('penjualan.index') }}">
                         <i class="fas fa-cash-register mr-3"></i>
@@ -57,9 +45,13 @@
                         <i class="fas fa-chart-line mr-3"></i>
                         <span class="sidebar-item-text">Reports</span>
                     </a>
-                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="{{ route('users.index') }}">
+                    <a class="flex items-center py-2 px-8 bg-green-700 text-white" href="{{ route('users.index') }}">
                         <i class="fas fa-user mr-3"></i>
                         <span class="sidebar-item-text">Users</span>
+                    </a>
+                    <a class="flex items-center py-2 px-8 text-green-200 hover:bg-green-700 hover:text-white" href="/logout">
+                        <i ></i>
+                        <span class="sidebar-item-text">Log Out</span>
                     </a>
                 </nav>
             </div>
@@ -83,7 +75,7 @@
                         </div>
                         <div class="ml-4">
                             <h2 class="text-lg font-semibold">Total Sales</h2>
-                            <p class="text-2xl font-bold">Rp 420.000.000</p>
+                            <p class="text-2xl font-bold">Rp {{ number_format($totalSales, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -94,7 +86,7 @@
                         </div>
                         <div class="ml-4">
                             <h2 class="text-lg font-semibold">Transactions</h2>
-                            <p class="text-2xl font-bold">1,234</p>
+                            <p class="text-2xl font-bold">{{ number_format($totalTransactions) }}</p>
                         </div>
                     </div>
                 </div>
@@ -105,7 +97,7 @@
                         </div>
                         <div class="ml-4">
                             <h2 class="text-lg font-semibold">Products</h2>
-                            <p class="text-2xl font-bold">567</p>
+                            <p class="text-2xl font-bold">{{ number_format($totalProducts) }}</p>
                         </div>
                     </div>
                 </div>
@@ -116,13 +108,11 @@
                         </div>
                         <div class="ml-4">
                             <h2 class="text-lg font-semibold">Customers</h2>
-                            <p class="text-2xl font-bold">789</p>
+                            <p class="text-2xl font-bold">{{ number_format($totalCustomers) }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Charts -->
-            
         </div>
     </div>
     <script>
